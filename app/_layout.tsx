@@ -6,9 +6,13 @@ import "react-native-reanimated";
 import "../global.css";
 import { ClerkProvider, ClerkLoaded } from "@clerk/clerk-expo";
 import { tokenCache } from "@/lib/auth";
+import { LogBox } from "react-native";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+// Ignore log notification by message at runtime bottom screen
+LogBox.ignoreLogs(["Clerk:"]); // Ignore log notification by message
 
 export default function AppLayout() {
   const [loaded] = useFonts({
