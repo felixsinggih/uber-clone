@@ -12,6 +12,8 @@ import { icons } from "@/constants";
 import { useFetch } from "@/lib/fetch";
 import MapViewDirections from "react-native-maps-directions";
 
+const googleMapApi = process.env.EXPO_PUBLIC_GOOGLE_MAP_API_KEY!;
+
 const Map = () => {
   const { data: drivers, loading, error } = useFetch<Driver[]>("/(api)/driver");
   const {
@@ -58,7 +60,14 @@ const Map = () => {
         setDrivers(drivers as MarkerData[]);
       });
     }
-  }, [markers, destinationLatitude, destinationLongitude]);
+  }, [
+    markers,
+    destinationLatitude,
+    destinationLongitude,
+    userLatitude,
+    userLongitude,
+    setDrivers,
+  ]);
 
   if (loading || !userLatitude || !userLongitude) {
     return (
@@ -83,9 +92,8 @@ const Map = () => {
         height: "100%",
       }}
       provider={PROVIDER_DEFAULT}
-      className="rounded-2xl"
       tintColor="black"
-      mapType="mutedStandard"
+      mapType={"standard"} // ! error when using "mutedStandard" in android
       showsPointsOfInterest={false}
       initialRegion={region}
       showsUserLocation={true}
@@ -126,7 +134,7 @@ const Map = () => {
               latitude: destinationLatitude,
               longitude: destinationLongitude,
             }}
-            apikey={process.env.EXPO_PUBLIC_GOOGLE_MAP_API_KEY!}
+            apikey={googleMapApi}
             strokeColor="#0286ff"
             strokeWidth={3}
           />

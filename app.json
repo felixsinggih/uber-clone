@@ -20,7 +20,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#2F80ED"
       },
-      "package": "com.felixsinggih.uberclone"
+      "package": "com.felixsinggih.uberclone",
+      "config": {
+        "googleMaps": {
+          "apiKey": "your-google-maps-api-key"
+        }
+      }
     },
     "web": {
       "bundler": "metro",

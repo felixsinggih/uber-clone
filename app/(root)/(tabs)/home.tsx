@@ -1,4 +1,4 @@
-import { SignedIn, useAuth, useUser } from "@clerk/clerk-expo";
+import { useAuth, useUser } from "@clerk/clerk-expo";
 import {
   ActivityIndicator,
   FlatList,
@@ -13,18 +13,19 @@ import { icons, images } from "@/constants";
 import GoogleTextInput from "@/components/GoogleTextInput";
 import Map from "@/components/Map";
 import { useLocationStore } from "@/store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as Location from "expo-location";
 import { router } from "expo-router";
 import { useFetch } from "@/lib/fetch";
+import { Ride } from "@/types/type";
 
 export default function Home() {
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const { user } = useUser();
   const { signOut } = useAuth();
-  const { data: recentRides, loading } = useFetch(`/(api)/ride/${user?.id}`);
-
-  const [hasPermission, setHasPermission] = useState(false);
+  const { data: recentRides, loading } = useFetch<Ride[]>(
+    `/(api)/ride/${user?.id}`,
+  );
 
   const handleSignOut = () => {
     signOut();
@@ -65,7 +66,7 @@ export default function Home() {
     };
 
     requestLocation();
-  }, []);
+  }, [setUserLocation]);
 
   return (
     <SafeAreaView className="bg-general-500">
